@@ -18,10 +18,6 @@ public class DbService {
         return taskRepository.findAll();
     }
 
-    public Task getTaskById(final Long id) {
-        return taskRepository.findById(id).orElse(null);
-    }
-
     public Task saveTask (final Task task) {
         return taskRepository.save(task);
     }
