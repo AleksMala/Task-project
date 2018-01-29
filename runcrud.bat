@@ -1,13 +1,13 @@
-gradlew build
-if "%ERRORLEVEL%"=="0" goto rename
+call gradlew build
+if "%ERRORLEVEL%" == "0" goto rename
 echo.
 echo GRADLEW BUILD has errors - breaking work
 goto fail
 
 :rename
-del\build\libs\crud.war
+del build\libs\crud.war
 ren build\libs\Task-project-0.0.1-SNAPSHOT.war crud.war
-if"%ERRORLEVEL%" == "0" goto stoptomcat
+if "%ERRORLEVEL%" == "0" goto stoptomcat
 echo Cannot rename file
 goto fail
 
@@ -26,7 +26,7 @@ goto end
 
 :fail
 echo.
-ech There were errors
+echo There were errors
 
 :end
 echo.

@@ -28,10 +28,7 @@ repositories {
 	maven { url "https://repo.spring.io/milestone" }
 }
 
-war {
-    archiveName 'crud.war'
-}
-
+war { archiveName 'crud.war' }
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
