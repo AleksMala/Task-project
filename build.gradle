@@ -10,11 +10,7 @@ buildscript {
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
 	}
-	jar {
-		baseName = 'Task-project'
-		version = '0.0.1-SNAPSHOT'
-	}
-	war { archiveName 'crud.war' }
+
 }
 
 apply plugin: 'java'
@@ -33,11 +29,14 @@ repositories {
 	maven { url "https://repo.spring.io/milestone" }
 }
 
+//war {archiveName 'crud.war' }
+
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
     compileOnly ('org.projectlombok:lombok:1.16.20')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
-    //compile('mysql:mysql-connector-java')
+    compile('mysql:mysql-connector-java')
+	compile('org.postgresql:postgresql')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 
