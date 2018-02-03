@@ -27,13 +27,12 @@ public class TrelloClient {
     private RestTemplate restTemplate;
 
     private URI url() {
-        URI url = UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/aleksandramalaszuk/boards")
+        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/aleksandramalaszuk/boards")
                 .queryParam("key" + trelloAppKey)
                 .queryParam("token" + trelloToken)
                 .queryParam("fields", "name,id")
                 .queryParam("lists", "all")
                 .build().encode().toUri();
-        return url;
     }
 
     public List<TrelloBoardDto> getTrelloBoards() {
