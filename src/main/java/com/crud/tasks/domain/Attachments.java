@@ -10,8 +10,8 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreatedTrelloAttachments {
+public class Attachments<T> {
 
     @JsonProperty("trello")
-    private List<CreatedTrello> trello;
+    private List<Trello> trello;
 }

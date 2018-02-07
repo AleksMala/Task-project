@@ -22,11 +22,5 @@ public class CreatedTrelloCard {
     private String shortUrl;
 
     @JsonProperty("badges")
-    private List<CreatedTrelloBadges> badges;
-
-    /**@JsonProperty("attachment")
-    private List<CreatedTrelloAttachments> attachment;
-
-    @JsonProperty("trello")
-    private List<CreatedTrello> trello;**/
+    private List<Badges<Attachments<Trello>>> badges;
 }

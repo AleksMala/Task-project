@@ -3,8 +3,6 @@ package com.crud.tasks.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @Getter
 public class TrelloCardDto {
@@ -12,8 +10,8 @@ public class TrelloCardDto {
     private String description;
     private String pos;
     private String listId;
-    private CreatedTrelloBadges badges;
-    private CreatedTrelloAttachments attachments;
-    private CreatedTrello trello;
+    private Badges<Attachments> badges;
+    private Attachments<Trello> attachments;
+    private Trello trello;
 
 }
