@@ -5,13 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
-
 @AllArgsConstructor
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class CreatedTrelloAttachments {
+public class Attachments {
 
     @JsonProperty("trello")
-    private List<CreatedTrello> trello;
+    private Trello trello;
 }

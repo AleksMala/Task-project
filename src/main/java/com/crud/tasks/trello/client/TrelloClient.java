@@ -23,13 +23,13 @@ public class TrelloClient {
     private String trelloAppKey;
     @Value("${trello.app.token}")
     private String trelloToken;
-    //@Value("${trello.app.username}")
-    //private String trelloUsername;
+    @Value("${trello.app.username}")
+    private String trelloUsername;
     @Autowired
     private RestTemplate restTemplate;
 
     private URI url() {
-        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/aleksandramalaszuk/boards")
+        return UriComponentsBuilder.fromHttpUrl(trelloApiEndpoint + "/members/" + trelloUsername + "/boards")
                 .queryParam("key", trelloAppKey)
                 .queryParam("token", trelloToken)
                 .queryParam("fields", "name,id")
@@ -56,9 +56,7 @@ public class TrelloClient {
                 .queryParam("desc", trelloCardDto.getDescription())
                 .queryParam("pos", trelloCardDto.getPos())
                 .queryParam("idList", trelloCardDto.getListId())
-                .queryParam("fields",  trelloCardDto.getBadges().getVotes())
-                .queryParam("attachments", trelloCardDto.getAttachments().getTrello())
-                .queryParam("trello", trelloCardDto.getTrello().getBoard(), trelloCardDto.getTrello().getCard())
+                .queryParam("boards", trelloCardDto.getBadges())
                 .build().encode().toUri();
 
         return restTemplate.postForObject(url, null, CreatedTrelloCard.class);
