@@ -43,7 +43,7 @@ public class TrelloClient {
         URI url = url();
         TrelloBoardDto[] boardResponse = restTemplate.getForObject(url, TrelloBoardDto[].class);
 
-        return Optional.of(Arrays.asList(boardResponse)).orElseThrow(TaskNotFoundException::new);
+        return Arrays.asList(Optional.ofNullable(boardResponse).orElseThrow(TaskNotFoundException::new));
 
     }
 
