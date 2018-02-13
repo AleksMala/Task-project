@@ -1,5 +1,6 @@
 package com.crud.tasks.trello.client;
 
+import com.crud.tasks.controller.TaskNotFoundException;
 import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
@@ -10,9 +11,9 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class TrelloClient {
@@ -37,15 +38,13 @@ public class TrelloClient {
                 .build().encode().toUri();
     }
 
-    public List<TrelloBoardDto> getTrelloBoards() {
+
+    public List<TrelloBoardDto> getTrelloBoards() throws TaskNotFoundException {
         URI url = url();
+        TrelloBoardDto[] boardResponse = restTemplate.getForObject(url, TrelloBoardDto[].class);
 
-        TrelloBoardDto[] boardsResponse = restTemplate.getForObject(url, TrelloBoardDto[].class);
+        return Optional.of(Arrays.asList(boardResponse)).orElseThrow(TaskNotFoundException::new);
 
-        if (boardsResponse != null) {
-            return Arrays.asList(boardsResponse);
-        }
-        return new ArrayList<>();
     }
 
     public CreatedTrelloCard createNewCard(TrelloCardDto trelloCardDto) {
