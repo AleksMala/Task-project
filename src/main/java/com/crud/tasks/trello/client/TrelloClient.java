@@ -22,11 +22,13 @@ import java.util.Optional;
 @Component
 public class TrelloClient {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(TrelloClient.class);
+
     @Autowired
     private TrelloConfig trelloConfig;
     @Autowired
     private RestTemplate restTemplate;
-    private static final Logger LOGGER = LoggerFactory.getLogger(TrelloClient.class);
+
 
     private URI url() {
         return UriComponentsBuilder.fromHttpUrl(trelloConfig.getTrelloApiEndpoint() + "/members/" + trelloConfig.getTrelloUsername() + "/boards")
@@ -37,10 +39,8 @@ public class TrelloClient {
                 .build().encode().toUri();
     }
 
-
     public List<TrelloBoardDto> getTrelloBoards() {
         URI url = url();
-
         try {
             TrelloBoardDto[] boardResponse = restTemplate.getForObject(url, TrelloBoardDto[].class);
             return Arrays.asList(Optional.ofNullable(boardResponse).orElse(new TrelloBoardDto[0]));
