@@ -18,14 +18,14 @@ public class TrelloController {
     private TrelloClient trelloClient;
 
     @RequestMapping(method = RequestMethod.GET, value = "getTrelloBoards")
-    public List<TrelloBoardDto> getTrelloBoards(){
+    public List<TrelloBoardDto> getTrelloBoards() {
 
         return trelloClient.getTrelloBoards();
 //        trelloClient.getTrelloBoards()
-                //.stream()
-                //.filter(trelloBoardDto -> trelloBoardDto.getId() != null)
-                //.filter(trelloBoardDto -> trelloBoardDto.getName() != null)
-                //.filter(trelloBoardDto -> trelloBoardDto.getName().contains("Kodilla"))
+        //.stream()
+        //.filter(trelloBoardDto -> trelloBoardDto.getId() != null)
+        //.filter(trelloBoardDto -> trelloBoardDto.getName() != null)
+        //.filter(trelloBoardDto -> trelloBoardDto.getName().contains("Kodilla"))
 //                .forEach(trelloBoardDto -> {
 
 //                    System.out.println(trelloBoardDto.getName() + " - " + trelloBoardDto.getId() + "\n This board contains lists: ");

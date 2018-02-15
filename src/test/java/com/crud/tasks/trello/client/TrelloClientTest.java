@@ -36,11 +36,12 @@ public class TrelloClientTest {
         when(trelloConfig.getTrelloApiEndpoint()).thenReturn("http://test.com");
         when(trelloConfig.getTrelloAppKey()).thenReturn("test");
         when(trelloConfig.getTrelloToken()).thenReturn("test");
+        when(trelloConfig.getTrelloUsername()).thenReturn("aleksandramalaszuk");
     }
 
     @Test
     public void shouldFetchTrelloBoards() throws URISyntaxException {
-
+        //Given
         TrelloBoardDto[] trelloBoards = new TrelloBoardDto[1];
         trelloBoards[0] = new TrelloBoardDto("test_id", "test_board", new ArrayList<>());
         URI uri = new URI("http://test.com/members/aleksandramalaszuk/boards?key=test&token=test&fields=name,id&lists=all");
@@ -49,6 +50,7 @@ public class TrelloClientTest {
 
         //When
         List<TrelloBoardDto> fetchedTrelloBoards = trelloClient.getTrelloBoards();
+
         //Then
         assertEquals(1, fetchedTrelloBoards.size());
         assertEquals("test_id", fetchedTrelloBoards.get(0).getId());
@@ -71,6 +73,7 @@ public class TrelloClientTest {
         );
 
         when(restTemplate.postForObject(uri, null, CreatedTrelloCard.class)).thenReturn(createdTrelloCard);
+
         //When
         CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
 
@@ -82,7 +85,6 @@ public class TrelloClientTest {
 
     @Test
     public void shouldReturnEmptyList() throws URISyntaxException {
-
         //Given
         TrelloBoardDto[] trelloBoards = new TrelloBoardDto[0];
         URI url = new URI("http://test.com/members/aleksandramalaszuk/boards?key=test&token=test&fields=name,id&lists=all");
@@ -94,8 +96,5 @@ public class TrelloClientTest {
 
         //Then
         assertEquals(0, emptyTrelloBoards.size());
-        assertEquals("[]", emptyTrelloBoards.toString());
-
     }
-
 }
