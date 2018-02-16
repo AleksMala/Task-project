@@ -12,19 +12,16 @@ import org.springframework.stereotype.Service;
 @Service
 public class SimpleEmailService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleEmailService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleMailMessage.class);
 
     @Autowired
     private JavaMailSender javaMailSender;
 
     public void send(final Mail mail) {
-
         LOGGER.info("Starting email preparation...");
-
         try {
             SimpleMailMessage mailMessage = createMailMessage(mail);
             javaMailSender.send(mailMessage);
-
             LOGGER.info("Email has been sent.");
         } catch (MailException e) {
             LOGGER.error("Faild to process email sending: ", e.getMessage(), e);
@@ -36,6 +33,7 @@ public class SimpleEmailService {
         mailMessage.setTo(mail.getMailTo());
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
+        if(mail.getToCC()!=null)
         mailMessage.setCc(mail.getToCC());
         return mailMessage;
     }

@@ -9,7 +9,6 @@ import com.crud.tasks.trello.client.TrelloClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,8 +34,6 @@ public class TrelloService {
         Optional.ofNullable(newCard).ifPresent(card-> simpleEmailService.send
                 (new Mail(adminConfig.getAdminMail(),SUBJECT,"new Crad"
                 + trelloCardDto.getName() + " has been crated on your Trello account")));
-
-
         return newCard;
     }
 }

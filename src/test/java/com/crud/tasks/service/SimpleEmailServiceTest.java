@@ -31,7 +31,6 @@ public class SimpleEmailServiceTest {
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
 
-
         //When
         emailService.send(mail);
 
