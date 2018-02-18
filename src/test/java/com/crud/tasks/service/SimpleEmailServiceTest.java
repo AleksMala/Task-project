@@ -16,7 +16,7 @@ import static org.mockito.Mockito.verify;
 public class SimpleEmailServiceTest {
 
     @InjectMocks
-    private SimpleEmailService emailService;
+    private SimpleEmailService simpleEmailService;
 
     @Mock
     private JavaMailSender javaMailSender;
@@ -32,7 +32,7 @@ public class SimpleEmailServiceTest {
         mailMessage.setText(mail.getMessage());
 
         //When
-        emailService.send(mail);
+        simpleEmailService.send(mail);
 
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);

@@ -21,19 +21,18 @@ public class TrelloService {
     private AdminConfig adminConfig;
     @Autowired
     private TrelloClient trelloClient;
-
     @Autowired
     private SimpleEmailService simpleEmailService;
 
-    public List<TrelloBoardDto> fetchTrelloBoards(){
+    public List<TrelloBoardDto> fetchTrelloBoards() {
         return trelloClient.getTrelloBoards();
     }
 
-    public CreatedTrelloCard createdTrelloCard (final TrelloCardDto trelloCardDto){
+    public CreatedTrelloCard createTrelloCard(final TrelloCardDto trelloCardDto) {
         CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
-        Optional.ofNullable(newCard).ifPresent(card-> simpleEmailService.send
-                (new Mail(adminConfig.getAdminMail(),SUBJECT,"new Crad"
-                + trelloCardDto.getName() + " has been crated on your Trello account")));
+        Optional.ofNullable(newCard).ifPresent(card -> simpleEmailService.send
+                (new Mail(adminConfig.getAdminMail(), SUBJECT, "New Card"
+                        + card.getName() + " has been crated on your Trello account")));
         return newCard;
     }
 }
