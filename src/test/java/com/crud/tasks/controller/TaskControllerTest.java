@@ -42,7 +42,10 @@ public class TaskControllerTest {
     public void shouldFetchEmptyTasks() throws Exception {
         //Given
         List<TaskDto> emptyListTaskDto = new ArrayList<>();
-        when(taskMapper.mapToTaskDtoList(dbService.getAllTasks())).thenReturn(emptyListTaskDto);
+        List<Task> emptyListTask = new ArrayList<>();
+        when(dbService.getAllTasks()).thenReturn(emptyListTask);
+        when(taskMapper.mapToTaskDtoList(ArgumentMatchers.anyList())).thenReturn(emptyListTaskDto);
+
         //When & Then
         mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200)) //or isOK()
@@ -62,6 +65,18 @@ public class TaskControllerTest {
                 .andExpect(jsonPath("$[0].title", is("first_list")))
                 .andExpect(jsonPath("$[0].content", is("testing_list")));
     }
+
+    @Test
+    public void shouldFetchEmptyTask() throws Exception {
+        //Given
+        when(dbService.getTask(ArgumentMatchers.anyLong())).thenReturn(Optional.empty());
+
+        //When & Then
+        mockMvc.perform(get("/v1/task/getTask").contentType(MediaType.APPLICATION_JSON).param("taskId", "0"))
+                .andExpect(status().is(404))
+                .andExpect(jsonPath("$").doesNotExist());
+    }
+
 
     @Test
     public void shouldFetchTask() throws Exception {
@@ -102,7 +117,8 @@ public class TaskControllerTest {
         Task task = new Task(1L, "test_task", "testing");
 
         when(taskMapper.mapToTask(ArgumentMatchers.any(TaskDto.class))).thenReturn(task);
-        when(taskMapper.mapToTaskDto(dbService.saveTask(ArgumentMatchers.any(Task.class)))).thenReturn(taskDto);
+        when(dbService.saveTask(ArgumentMatchers.any(Task.class))).thenReturn(task);
+        when(taskMapper.mapToTaskDto(ArgumentMatchers.any(Task.class))).thenReturn(taskDto);
 
         Gson gson = new Gson();
         String jsonContent = gson.toJson(task);
@@ -135,6 +151,6 @@ public class TaskControllerTest {
                 .characterEncoding("UTF-8")
                 .content(jsonContent))
                 .andExpect(status().is(200)); //or isOK()
-        verify(dbService).saveTask(task);
+        verify(dbService, times(1)).saveTask(task);
     }
 }

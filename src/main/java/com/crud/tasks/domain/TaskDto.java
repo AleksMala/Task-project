@@ -1,12 +1,14 @@
 package com.crud.tasks.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Getter
 @AllArgsConstructor
+@EqualsAndHashCode
 public class TaskDto {
 
     private Long id;

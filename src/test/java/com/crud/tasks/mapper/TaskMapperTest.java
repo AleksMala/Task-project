@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertEquals;
 
 @Service
 public class TaskMapperTest {
@@ -21,31 +20,33 @@ public class TaskMapperTest {
     @Test
     public void testMapToTask() {
         //Given
-        TaskDto taskDtoExpected = new TaskDto((long) 1, "task_Dto", "description_Dto");
+        TaskDto taskDtoExpectedToMap = new TaskDto((long) 1, "task_Dto", "description_Dto");
+        Task taskExpectedToGet = new Task((long) 1, "task_Dto", "description_Dto");
         //When
-        Task acctualTask = taskMapper.mapToTask(taskDtoExpected);
+        Task acctualTask = taskMapper.mapToTask(taskDtoExpectedToMap);
         //Then
-        assertThat(taskDtoExpected.getContent(), is(acctualTask.getContent()));
+        assertEquals(taskExpectedToGet, acctualTask);
     }
 
     @Test
     public void testMapToTaskDto() {
         //Given
-        Task taskExpected = new Task((long) 1, "task_test", "testing_task");
+        Task taskExpectedToMap = new Task((long) 1, "task_test", "testing_task");
+        TaskDto taskDtoExpectedToGet = new TaskDto((long) 1, "task_test", "testing_task");
         //When
-        TaskDto acctualTaskDto = taskMapper.mapToTaskDto(taskExpected);
+        TaskDto acctualTaskDto = taskMapper.mapToTaskDto(taskExpectedToMap);
         //Then
-        assertThat(taskExpected.getContent(), is(acctualTaskDto.getContent()));
+        assertEquals(taskDtoExpectedToGet, acctualTaskDto);
     }
 
     @Test
     public void testMapToTaskDtoList() {
         //Given
-        Task taskExpected = new Task((long) 1, "task_test", "testing_task");
-        List<Task> taskList = Arrays.asList(taskExpected);
+        List<Task> taskList = Arrays.asList(new Task((long) 1, "task_test", "testing_task"));
+        List<TaskDto> taskDtoListExpectedToGet = Arrays.asList(new TaskDto((long) 1, "task_test", "testing_task"));
         //When
         List<TaskDto> acctualListTaskDto = taskMapper.mapToTaskDtoList(taskList);
         //Then
-        assertThat(taskList.get(0).getContent(), is(acctualListTaskDto.get(0).getContent()));
+        assertEquals(taskDtoListExpectedToGet, acctualListTaskDto);
     }
 }
