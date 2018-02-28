@@ -15,8 +15,7 @@ public class TrelloMapperTest {
 
     @Autowired
     private TrelloMapper trelloMapper = new TrelloMapper();
-    @Autowired
-    private TaskMapper taskMapper = new TaskMapper();
+
 
     @Test
     public void testMapToBoards() {
@@ -84,45 +83,5 @@ public class TrelloMapperTest {
         //Then
         assertEquals("1", acctualTrelloCardDto.getListId());
         assertEquals("test_card", acctualTrelloCardDto.getDescription());
-    }
-
-    @Test
-    public void testMapToTask() {
-        //Given
-        Integer y = 1;
-        Long x = y.longValue();
-        TaskDto taskDtoExpected = new TaskDto(x, "task_Dto", "description_Dto");
-        //When
-        Task acctualTask = taskMapper.mapToTask(taskDtoExpected);
-        //Then
-        assertEquals(1, acctualTask.getId().intValue());
-        assertEquals("task_Dto", acctualTask.getTitle());
-    }
-
-    @Test
-    public void testMapToTaskDto() {
-        //Given
-        Integer y = 1;
-        Long x = y.longValue();
-        Task taskExpected = new Task(x, "task_test", "testing_task");
-        //When
-        TaskDto acctualTaskDto = taskMapper.mapToTaskDto(taskExpected);
-        //Then
-        assertEquals(1, acctualTaskDto.getId().intValue());
-        assertEquals("task_test", acctualTaskDto.getTitle());
-    }
-
-    @Test
-    public void testMapToTaskDtoList() {
-        //Given
-        Integer y = 1;
-        Long x = y.longValue();
-        Task taskExpected = new Task(x, "task_test", "testing_task");
-        List<Task> taskList = Arrays.asList(taskExpected);
-        //When
-        List<TaskDto> acctualListTaskDto = taskMapper.mapToTaskDtoList(taskList);
-        //Then
-        assertEquals(1, acctualListTaskDto.size());
-        assertEquals("testing_task", acctualListTaskDto.get(0).getContent());
     }
 }
