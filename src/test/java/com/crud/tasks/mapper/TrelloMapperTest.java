@@ -22,11 +22,12 @@ public class TrelloMapperTest {
         //Given
         List<TrelloListDto> trelloListDtoToMap = Arrays.asList(new TrelloListDto("list_id", "list_name", true));
         List<TrelloBoardDto> trelloBoardDtoToMap = Arrays.asList(new TrelloBoardDto("test_id", "test_boardDto", trelloListDtoToMap));
+        List<TrelloList> mappedTrelloList = Arrays.asList(new TrelloList("list_id", "list_name", true));
+        List<TrelloBoard> mappedTrelloBoards = Arrays.asList(new TrelloBoard("test_id", "test_boardDto", mappedTrelloList));
         //When
         List<TrelloBoard> acctualTrelloBoards = trelloMapper.mapToBoards(trelloBoardDtoToMap);
         //Then
-        assertEquals(1, acctualTrelloBoards.size());
-        assertEquals("test_id", acctualTrelloBoards.get(0).getId());
+        assertEquals(mappedTrelloBoards, acctualTrelloBoards);
     }
 
     @Test
@@ -34,11 +35,12 @@ public class TrelloMapperTest {
         //Given
         List<TrelloList> trelloListDtoExpected = Arrays.asList(new TrelloList("list_id", "list_name", true));
         List<TrelloBoard> trelloBoardExpected = Arrays.asList(new TrelloBoard("test_id", "test_boardDto", trelloListDtoExpected));
+        List<TrelloListDto> trelloListDtoToMap = Arrays.asList(new TrelloListDto("list_id", "list_name", true));
+        List<TrelloBoardDto> trelloBoardDtoToMap = Arrays.asList(new TrelloBoardDto("test_id", "test_boardDto", trelloListDtoToMap));
         //When
         List<TrelloBoardDto> acctualTrelloBoardsDto = trelloMapper.mapToBoardsDto(trelloBoardExpected);
         //Then
-        assertEquals("test_boardDto", acctualTrelloBoardsDto.get(0).getName());
-        assertEquals(1, acctualTrelloBoardsDto.size());
+        assertEquals(trelloBoardDtoToMap, acctualTrelloBoardsDto);
     }
 
     @Test

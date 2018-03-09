@@ -4,11 +4,13 @@ import com.crud.tasks.config.AdminConfig;
 import com.crud.tasks.domain.Mail;
 import com.crud.tasks.repository.TaskRepository;
 import com.crud.tasks.service.SimpleEmailService;
+import lombok.EqualsAndHashCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
+@EqualsAndHashCode
 public class EmailScheduler {
     private static final String SUBJECT = "Tasks: Once a day email";
 
@@ -24,9 +26,9 @@ public class EmailScheduler {
         long size = taskRepository.count();
         String name;
         if (size == 1) {
-            name = "task";
+            name = " task";
         } else {
-            name = "tasks";
+            name = " tasks";
         }
 
         simpleEmailService.send(new Mail

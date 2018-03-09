@@ -6,7 +6,9 @@ import com.crud.tasks.repository.TaskRepository;
 import com.crud.tasks.service.SimpleEmailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.ArgumentMatcher;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.mockito.Mockito.*;
@@ -14,43 +16,60 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringRunner.class)
 public class EmailSchedulerTest {
 
-    @MockBean
+    @InjectMocks
     private EmailScheduler emailScheduler;
-    @MockBean
+    @Mock
     private SimpleEmailService simpleEmailService;
-    @MockBean
+    @Mock
     private TaskRepository taskRepository;
-    @MockBean
+    @Mock
     private AdminConfig adminConfig;
 
     @Test
     public void testEmailScheduler() {
         //Given
-        Mail mail = new Mail("malaleksandra2@gmail.com", "Test", "Test message");
+        Mail expectedMail = new Mail("malaleksandra2@gmail.com",
+                "Tasks: Once a day email",
+                "Currently in database you got: 2 tasks");
 
         when(adminConfig.getAdminMail()).thenReturn("malaleksandra2@gmail.com");
-        when(taskRepository.count()).thenReturn(anyLong());
-        simpleEmailService.send(mail);
+        when(taskRepository.count()).thenReturn(2L);
 
         //When
         emailScheduler.sendInformationEmail();
 
         //Then
-        verify(emailScheduler, times(1)).sendInformationEmail();
+        verify(simpleEmailService, times(1)).send(argThat(new MailMatcher(expectedMail)));
     }
 
     @Test
     public void testEmailSchedulerNotSent() {
         //Given
-        Mail mail = new Mail("malaleksandra2@gmail.com", "Test", "Test message");
+        Mail expectedMail = new Mail("malaleksandra2@gmail.com",
+                "Tasks: Once a day email",
+                "Currently in database you got: 1 task");
 
-        //when(adminConfig.getAdminMail()).thenReturn("malaleksandra2@gmail.com");
-        when(taskRepository.count()).thenReturn(anyLong());
-        simpleEmailService.send(mail);
+        when(adminConfig.getAdminMail()).thenReturn("malaleksandra2@gmail.com");
+        when(taskRepository.count()).thenReturn(1L);
 
         //When
         emailScheduler.sendInformationEmail();
-        //Then
 
+        //Then
+        verify(simpleEmailService, times(1)).send(argThat(new MailMatcher(expectedMail)));
+    }
+
+    private class MailMatcher implements ArgumentMatcher<Mail> {
+
+        Mail expected;
+
+        MailMatcher(Mail expected) {
+            this.expected = expected;
+        }
+
+        @Override
+        public boolean matches(Mail actual) {
+            return expected.getMessage().equals(actual.getMessage());
+        }
     }
 }
