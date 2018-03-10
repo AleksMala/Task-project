@@ -14,10 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.Optional;
-
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -54,16 +51,9 @@ public class TrelloServiceTest {
     @Test
     public void testFailedToCreateTrelloCardDto() {
         //Given
-        Mail mail = new Mail("malaleksandra2@gmail.com", "Test", "Test message");
-        TrelloCardDto trelloCardDto = new TrelloCardDto("trello_card", "card_test", "trello", "1");
-        CreatedTrelloCardDto createdTrelloCardDto =  new CreatedTrelloCardDto("1", "service_test", "https://test.com");
-
-        when(trelloClient.createNewCard(ArgumentMatchers.any())).thenReturn(createdTrelloCardDto);
-
-
-
+        when(trelloClient.createNewCard(ArgumentMatchers.any())).thenReturn(null);
         //When
-
         //Then
+        assertEquals(null, trelloService.createTrelloCard(null));
     }
 }
