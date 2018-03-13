@@ -26,7 +26,7 @@ public class EmailSchedulerTest {
     private AdminConfig adminConfig;
 
     @Test
-    public void testEmailScheduler() {
+    public void testEmailSchedulerMessageWithTasks() {
         //Given
         Mail expectedMail = new Mail("malaleksandra2@gmail.com",
                 "Tasks: Once a day email",
@@ -43,7 +43,7 @@ public class EmailSchedulerTest {
     }
 
     @Test
-    public void testEmailSchedulerNotSent() {
+    public void testEmailSchedulerMessageWthOneTask() {
         //Given
         Mail expectedMail = new Mail("malaleksandra2@gmail.com",
                 "Tasks: Once a day email",

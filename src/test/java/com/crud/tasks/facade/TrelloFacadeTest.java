@@ -17,6 +17,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertSame;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.times;
@@ -116,7 +117,7 @@ public class TrelloFacadeTest {
         //When
         CreatedTrelloCardDto createdTrelloCardDto = trelloFacade.createCard(trelloCardDto);
         //Then
-        verify(trelloValidator, times(1)).validateCard(trelloCard);
+        assertEquals(createdTrelloCardDtoExpected, createdTrelloCardDto);
     }
 
 }

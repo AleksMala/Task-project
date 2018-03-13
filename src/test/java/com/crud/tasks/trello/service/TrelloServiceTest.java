@@ -13,15 +13,18 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.mail.SimpleMailMessage;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TrelloServiceTest {
 
     @InjectMocks
-    private TrelloService trelloService = new TrelloService();
+    private TrelloService trelloService;
     @Mock
     private AdminConfig adminConfig;
     @Mock
@@ -32,7 +35,7 @@ public class TrelloServiceTest {
     @Test
     public void testCreatedTrelloCardDto() {
         //Given
-        Mail mail = new Mail("malaleksandra2@gmail.com", "Test", "Test message");
+        Mail mail = new Mail("malaleksandra2@gmail.com", "Tasks: New Trello Card", "New Card " + "trello_card" + " has been created on your Trello account");
         TrelloCardDto trelloCardDto = new TrelloCardDto("trello_card", "card_test", "trello", "1");
         CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto("1", "service_test", "https://test.com");
 
@@ -43,6 +46,7 @@ public class TrelloServiceTest {
         CreatedTrelloCardDto newCard = trelloService.createTrelloCard(trelloCardDto);
 
         //Then
+        //verify(simpleEmailService, times(1)).send(mail);
         assertEquals("1", newCard.getId());
         assertEquals("service_test", newCard.getName());
         assertEquals("https://test.com", newCard.getShortUrl());
@@ -51,9 +55,11 @@ public class TrelloServiceTest {
     @Test
     public void testFailedToCreateTrelloCardDto() {
         //Given
+        Mail mail = new Mail("malaleksandra2@gmail.com", "Test", "Test message");
         when(trelloClient.createNewCard(ArgumentMatchers.any())).thenReturn(null);
         //When
         //Then
+        verify(simpleEmailService, times(0)).send(mail);
         assertEquals(null, trelloService.createTrelloCard(null));
     }
 }

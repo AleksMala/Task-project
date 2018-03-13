@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-@EqualsAndHashCode
 public class SimpleEmailService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SimpleMailMessage.class);
