@@ -39,11 +39,9 @@ public class ValidatorTest {
         List<TrelloList> trelloList = new ArrayList<>();
             trelloList.add(new TrelloList("1", "trelloList", false));
         List<TrelloBoard> trelloBoards = new ArrayList<>();
-                trelloBoards.add(new TrelloBoard("1", "trelloBoard_test", trelloList));
+                trelloBoards.add(new TrelloBoard("1", "test", trelloList));
                 trelloBoards.add(new TrelloBoard("2", "secondTrelloBoard", trelloList));
         //When
-
-        trelloBoards.remove(0);
         List<TrelloBoard> getTrelloBoard = trelloValidator.validateTrelloBoards(trelloBoards);
         //Then
         assertEquals(1, getTrelloBoard.size());
