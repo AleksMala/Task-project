@@ -20,10 +20,7 @@ public class SimpleEmailServiceTest {
 
     @Mock
     private JavaMailSender javaMailSender;
-    @Mock
-    private EmailTemplate emailTemplate;
-    @Mock
-    private String message;
+
 
     @Test
     public void shouldSendEmail() {
@@ -36,7 +33,7 @@ public class SimpleEmailServiceTest {
         mailMessage.setText(mail.getMessage());
 
         //When
-        simpleEmailService.send(mail, message, emailTemplate);
+        simpleEmailService.send(mail);
 
         //Then
         verify(javaMailSender, times(1)).send(mailMessage);
