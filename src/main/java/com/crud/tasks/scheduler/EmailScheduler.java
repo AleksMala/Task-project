@@ -19,9 +19,7 @@ public class EmailScheduler {
     private TaskRepository taskRepository;
     @Autowired
     private AdminConfig adminConfig;
-    @Autowired
-    private EmailTemplate emailTemplate;
-    private String message;
+
 
     @Scheduled(cron = "0 0/30 8-10 * * *")
     public void sendInformationEmail() {
@@ -36,7 +34,7 @@ public class EmailScheduler {
                 new Mail(
                 (adminConfig.getAdminMail()),
                         SUBJECT,
-                        "Currently in database you got: " + size + name), message, emailTemplate);
+                        "Currently in database you got: " + size + name));
     }
 
 }
