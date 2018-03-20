@@ -1,7 +1,6 @@
 package com.crud.tasks.service;
 
 import com.crud.tasks.domain.Mail;
-import lombok.EqualsAndHashCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +23,33 @@ public class SimpleEmailService {
     @Autowired
     private MailCreatorService mailCreatorService;
 
-    public void send(final Mail mail) {
+    public void send(final Mail mail, final String message, final EmailTemplate emailTemplate) {
         LOGGER.info("Starting email preparation...");
         try {
-            javaMailSender.send(createMimeMessage(mail));
+            javaMailSender.send(createMimeMessage(mail, message, emailTemplate));
             LOGGER.info("Email has been sent.");
         } catch (MailException e) {
             LOGGER.error("Faild to process email sending: ", e.getMessage(), e);
         }
     }
 
-    private MimeMessagePreparator createMimeMessage (final Mail mail) {
+    private String getTemplate(final String message, final EmailTemplate emailTemplate) {
+        switch (emailTemplate) {
+            case SCHEDULER_TEMPLATE:
+                return mailCreatorService.buildEmailScheduler(message);
+            case TRELLO_CARD_TEMPLATE:
+                return mailCreatorService.buildTrelloCardEmail(message);
+            default:
+                return message;
+        }
+    }
+
+    private MimeMessagePreparator createMimeMessage(final Mail mail, final String message, final EmailTemplate emailTemplate) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(mailCreatorService.buildTrelloCardEmail(mail.getMessage()), true);
+            messageHelper.setText(getTemplate(message, emailTemplate), true);
         };
     }
 

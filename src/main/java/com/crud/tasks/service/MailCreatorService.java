@@ -36,6 +36,7 @@ public class MailCreatorService {
         context.setVariable("admin_config", adminConfig);
         context.setVariable("admin_name", adminConfig.getAdminName());
         context.setVariable("introduction", "Trello card process");
+        context.setVariable("application_functionality", functionality);
         context.setVariable("details", adminConfig.getAdminName() +"\n"+ adminConfig.getCompanyEmail() +"\n"+ adminConfig.getCompanyPhone());
         return templateEngine.process("mail/created-trello-card-mail", context);
     }
@@ -44,6 +45,11 @@ public class MailCreatorService {
 
         Context context = new Context();
         context.setVariable("message", message);
+        context.setVariable("introduction", "Email Scheduler");
+        context.setVariable("is_friend", true);
+        context.setVariable("admin_name", adminConfig.getAdminName());
+        context.setVariable("button", "Go to tasks_url");
+        context.setVariable("tasks_url", "http://localhost:8888/crud");
 
         return templateEngine.process("mail/one_day_task_info", context);
     }
