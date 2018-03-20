@@ -22,11 +22,13 @@ public class SimpleEmailService {
     private JavaMailSender javaMailSender;
     @Autowired
     private MailCreatorService mailCreatorService;
+    @Autowired
+    private EmailTemplate emailTemplate;
 
-    public void send(final Mail mail, final String message, final EmailTemplate emailTemplate) {
+    public void send(final Mail mail) {
         LOGGER.info("Starting email preparation...");
         try {
-            javaMailSender.send(createMimeMessage(mail, message, emailTemplate));
+            javaMailSender.send(createMimeMessage(mail));
             LOGGER.info("Email has been sent.");
         } catch (MailException e) {
             LOGGER.error("Faild to process email sending: ", e.getMessage(), e);
@@ -44,12 +46,12 @@ public class SimpleEmailService {
         }
     }
 
-    private MimeMessagePreparator createMimeMessage(final Mail mail, final String message, final EmailTemplate emailTemplate) {
+    private MimeMessagePreparator createMimeMessage(final Mail mail) {
         return mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setTo(mail.getMailTo());
             messageHelper.setSubject(mail.getSubject());
-            messageHelper.setText(getTemplate(message, emailTemplate), true);
+            messageHelper.setText(getTemplate(mail.getMessage(), emailTemplate), true);
         };
     }
 

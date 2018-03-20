@@ -3,7 +3,6 @@ package com.crud.tasks.scheduler;
 import com.crud.tasks.config.AdminConfig;
 import com.crud.tasks.domain.Mail;
 import com.crud.tasks.repository.TaskRepository;
-import com.crud.tasks.service.EmailTemplate;
 import com.crud.tasks.service.SimpleEmailService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,10 +24,6 @@ public class EmailSchedulerTest {
     private TaskRepository taskRepository;
     @Mock
     private AdminConfig adminConfig;
-    @Mock
-    private EmailTemplate emailTemplate;
-    @Mock
-    private String message;
 
     @Test
     public void testEmailSchedulerMessageWithTasks() {
@@ -44,7 +39,7 @@ public class EmailSchedulerTest {
         emailScheduler.sendInformationEmail();
 
         //Then
-        verify(simpleEmailService, times(1)).send(argThat(new MailMatcher(expectedMail, message, emailTemplate)));
+        verify(simpleEmailService, times(1)).send(argThat(new MailMatcher(expectedMail)));
     }
 
     @Test
@@ -61,7 +56,7 @@ public class EmailSchedulerTest {
         emailScheduler.sendInformationEmail();
 
         //Then
-        verify(simpleEmailService, times(1)).send(argThat(new MailMatcher(expectedMail, message, emailTemplate)));
+        verify(simpleEmailService, times(1)).send(argThat(new MailMatcher(expectedMail)));
     }
 
     private class MailMatcher implements ArgumentMatcher<Mail> {
