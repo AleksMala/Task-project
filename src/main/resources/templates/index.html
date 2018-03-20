@@ -12,21 +12,17 @@
 <br>
     <!--/*@thymesVar id="two" type="com.crud.tasks.controller.StaticWebPageController"*/-->
     <!--/*@thymesVar id="multiply" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <!--/*@thymesVar id="equals" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-<span th:text="${two} + ${multiply} + ${two} + ${equals} + ${two} * ${two}"></span>
-
-<br>
-    <!--/*@thymesVar id="two" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <!--/*@thymesVar id="multiply" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <!--/*@thymesVar id="equals" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <!--/*@thymesVar id="add" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <span th:text="${two} + ${multiply} + ${two} + ${add} + ${two} + ${equals} + ${two} * ${two} + ${two}"></span>
-
+    <!--/*@thymesVar id="one" type="com.crud.tasks.controller.StaticWebPageController"*/-->
+    <span th:text="${one} + ${two}"></span>
     <br>
-    <!--/*@thymesVar id="two" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <!--/*@thymesVar id="multiply" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <!--/*@thymesVar id="equals" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <!--/*@thymesVar id="subtract" type="com.crud.tasks.controller.StaticWebPageController"*/-->
-    <span th:text="${two} + ${subtract} + ${two} + ${multiply} + ${two} + ${equals} + ${two} - ${two * two}"></span>
+    <span th:text="${two + ' * ' + two + ' = '}"></span>
+    <span th:text="${two} * ${two}"></span>
+    <br>
+    <span th:text="${two + ' * ' + two + ' + ' + two + ' = '}" ></span>
+    <span th:text="${two} * ${two} + ${two}"></span>
+    <br>
+    <span th:text="${two + ' - ' + two + ' * ' + two + ' = '}" ></span>
+    <span th:text="${two} - ${two} * ${two}"></span>
+    <br>
 </body>
 </html>
