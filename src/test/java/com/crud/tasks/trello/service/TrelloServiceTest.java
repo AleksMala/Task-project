@@ -4,6 +4,7 @@ import com.crud.tasks.config.AdminConfig;
 import com.crud.tasks.domain.CreatedTrelloCardDto;
 import com.crud.tasks.domain.Mail;
 import com.crud.tasks.domain.TrelloCardDto;
+import com.crud.tasks.service.EmailTemplate;
 import com.crud.tasks.service.SimpleEmailService;
 import com.crud.tasks.service.TrelloService;
 import com.crud.tasks.trello.client.TrelloClient;
@@ -30,6 +31,8 @@ public class TrelloServiceTest {
     private TrelloClient trelloClient;
     @Mock
     private SimpleEmailService simpleEmailService;
+    @Mock
+    private EmailTemplate emailTemplate;
 
     @Test
     public void testCreatedTrelloCardDto() {
@@ -48,7 +51,7 @@ public class TrelloServiceTest {
         CreatedTrelloCardDto newCard = trelloService.createTrelloCard(trelloCardDto);
 
         //Then
-        verify(simpleEmailService, times(1)).send(argThat(new MailMatcher(mail)));
+        verify(simpleEmailService, times(1)).send(argThat(new MailMatcher(mail)), emailTemplate);
         assertEquals("1", newCard.getId());
         assertEquals("service_test", newCard.getName());
         assertEquals("https://test.com", newCard.getShortUrl());
@@ -60,7 +63,7 @@ public class TrelloServiceTest {
         Mail mail = new Mail("malaleksandra2@gmail.com", "Test", "Test message");
         when(trelloClient.createNewCard(ArgumentMatchers.any())).thenReturn(null);
         //When&Then
-        verify(simpleEmailService, times(0)).send(mail);
+        verify(simpleEmailService, times(0)).send(mail, emailTemplate);
         assertEquals(null, trelloService.createTrelloCard(null));
     }
 
